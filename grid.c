@@ -15,7 +15,7 @@ void grid_set(Grid grid, unsigned short x, unsigned short y, unsigned short choi
     if (x < 0 || x > 8 || y < 0 || y > 8)
         return;
 
-    grid[y + 3 * x] = choice; 
+    grid[x + y * 3] = choice; 
 }
 
 short grid_get_winner(Grid grid)
