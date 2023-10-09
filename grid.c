@@ -10,3 +10,10 @@ Grid grid_init()
     return grid;
 }
 
+void grid_set(Grid grid, unsigned short x, unsigned short y, unsigned short choice)
+{
+    if (x < 0 || x > 8 || y < 0 || y > 8)
+        return;
+
+    grid[y + 3 * x] = choice; 
+}
