@@ -49,6 +49,16 @@ int main()
         {
             char *text[] = { "X has won\0", "O has won\0" };
             DrawText(text[winner], 20, 200, 100, BLACK);
+
+        }
+
+        if (IsKeyDown(KEY_R))
+        {
+            winner = 2;
+            turn = X;
+
+            for (int i = 0; i < 9; i ++)
+                grid[i] = 2;
         }
 
         EndDrawing();
