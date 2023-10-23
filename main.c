@@ -6,9 +6,9 @@ int main()
 {
     Grid grid = grid_init();
     short turn = X;
-    short winner = 2;
+    short winner = EMPTY;
 
-    InitWindow(600, 600, "test");
+    InitWindow(600, 600, "TicTacToe");
     while (!WindowShouldClose())
     {
 
@@ -17,10 +17,10 @@ int main()
             int x = GetMouseX() / 200;
             int y = GetMouseY() / 200;
 
-            if (grid[x + y * 3] == 2)
+            if (grid[x + y * 3] == EMPTY)
             {
                 grid[x + y * 3] = turn;
-                turn = (turn == X) ? O : X;
+                turn = OPPOSITE(turn);
 
                 winner = grid_get_winner(grid);
             }
@@ -29,7 +29,7 @@ int main()
         ClearBackground(WHITE);
         BeginDrawing();
 
-        if (winner == 2)
+        if (winner == EMPTY)
         {
             DrawLine(200, 0, 200, 600, BLACK);
             DrawLine(400, 0, 400, 600, BLACK);
@@ -40,7 +40,7 @@ int main()
                 for (int y = 0; y < 3; y ++)
                 {
                     char *text[] = { "X\0", "O\0" };
-                    if (grid[x + y * 3] != 2)
+                    if (grid[x + y * 3] != EMPTY)
                         DrawText(text[grid[x + y * 3]], 230 * x, 230 * y, 150, BLACK);
                 }
 
@@ -54,11 +54,11 @@ int main()
 
         if (IsKeyDown(KEY_R))
         {
-            winner = 2;
+            winner = EMPTY;
             turn = X;
 
             for (int i = 0; i < 9; i ++)
-                grid[i] = 2;
+                grid[i] = EMPTY;
         }
 
         EndDrawing();
