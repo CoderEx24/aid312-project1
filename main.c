@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <raylib.h>
 #include "grid.h"
+#include "agent.h"
 
 int main()
 {
@@ -19,9 +21,30 @@ int main()
 
             if (grid[x + y * 3] == EMPTY)
             {
-                grid[x + y * 3] = turn;
-                turn = OPPOSITE(turn);
+                grid[x + y * 3] = X;
+                winner = grid_get_winner(grid);
+                
+                if (winner == EMPTY)
+                {
+                    size_t agent_solution = solve_by_depth_first(grid, O);
 
+                    TraceLog(LOG_INFO, "Agent Solution = %zu", agent_solution);
+
+                    if (agent_solution != 9)
+                        grid[agent_solution] = O;
+
+                    else
+                    {
+                        TraceLog(LOG_INFO, "Deadlocked, choicing randomly");
+                        size_t random_position = rand() % 9;
+
+                        while (grid[random_position] != EMPTY)
+                            random_position = rand() % 9;
+
+                        grid[random_position] = O;
+                    }
+                }
+                
                 winner = grid_get_winner(grid);
             }
         }
