@@ -9,8 +9,9 @@ int main()
     Grid grid = grid_init();
     short turn = X;
     short winner = EMPTY;
+    short algorithm = 0;
 
-    InitWindow(600, 600, "TicTacToe");
+    InitWindow(600, 670, "TicTacToe");
     while (!WindowShouldClose())
     {
 
@@ -26,7 +27,19 @@ int main()
                 
                 if (winner == EMPTY)
                 {
-                    size_t agent_solution = solve_by_depth_first(grid, O);
+
+                    size_t agent_solution = 0;
+
+                    switch (algorithm)
+                    {
+                        case 0:
+                            agent_solution = solve_by_depth_first(grid, O);
+                            break;
+
+                        case 1:
+                            agent_solution = solve_by_breadth_first(grid, O);
+                            break;
+                    }
 
                     TraceLog(LOG_INFO, "Agent Solution = %zu", agent_solution);
 
@@ -67,6 +80,10 @@ int main()
                         DrawText(text[grid[x + y * 3]], 230 * x, 230 * y, 150, BLACK);
                 }
 
+            char *algorithm_text[] = { "Depth-first", "Breadth-first" };
+
+            DrawText(algorithm_text[algorithm], 20, 610, 30, BLACK);
+
         }
         else
         {
@@ -86,6 +103,8 @@ int main()
 
         EndDrawing();
 
+        if (IsKeyPressed(KEY_C))
+            algorithm = (algorithm + 1) % 2;
     }
 
     CloseWindow();
